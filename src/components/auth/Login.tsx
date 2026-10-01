@@ -11,8 +11,8 @@ export const Login: React.FC<LoginProps> = ({ showToast }) => {
   const { login } = useAuth();
   const { settings } = useDars();
 
-  const [username, setUsername] = useState<string>('admin');
-  const [password, setPassword] = useState<string>('madinul2026');
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
@@ -67,7 +67,7 @@ export const Login: React.FC<LoginProps> = ({ showToast }) => {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
             {/* Username */}
             <div>
               <label className="block text-slate-300 font-bold uppercase tracking-wider text-[11px] sm:text-xs mb-1.5">
@@ -80,6 +80,7 @@ export const Login: React.FC<LoginProps> = ({ showToast }) => {
                   placeholder=""
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  autoComplete="off"
                   className="w-full min-h-[48px] pl-10 pr-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-white placeholder:text-slate-500 text-base sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-emerald-500 font-medium"
                   required
                 />
@@ -95,9 +96,10 @@ export const Login: React.FC<LoginProps> = ({ showToast }) => {
                 <Lock className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400" />
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="••••••••"
+                  placeholder=""
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="new-password"
                   className="w-full min-h-[48px] pl-10 pr-11 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-white placeholder:text-slate-500 text-base sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
                   required
                 />
