@@ -1,0 +1,69 @@
+{
+  "entities": {
+    "Student": {
+      "title": "Student",
+      "description": "Enrolled DARS student profile and identifying particulars",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "full_name": { "type": "string", "maxLength": 150 },
+        "student_id": { "type": "string", "maxLength": 50 },
+        "house_name": { "type": "string", "maxLength": 150 },
+        "post_office": { "type": "string", "maxLength": 100 },
+        "extra_address": { "type": "string", "maxLength": 250 },
+        "district": { "type": "string", "maxLength": 80 },
+        "state": { "type": "string", "maxLength": 80 },
+        "pincode": { "type": "string", "maxLength": 10 },
+        "phone": { "type": "string", "maxLength": 20 },
+        "created_at": { "type": "string", "maxLength": 50 },
+        "updated_at": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["full_name", "student_id", "district", "phone"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Income or expense financial transaction linked to a student",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "student_id": { "type": "string", "maxLength": 128 },
+        "type": { "type": "string", "enum": ["income", "expense"] },
+        "amount": { "type": "number" },
+        "description": { "type": "string", "maxLength": 300 },
+        "date": { "type": "string", "maxLength": 30 },
+        "created_at": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["student_id", "type", "amount", "description", "date"]
+    },
+    "DarsSettings": {
+      "title": "DarsSettings",
+      "description": "Institutional configuration, profile, and ledger preferences",
+      "type": "object",
+      "properties": {
+        "dars_name": { "type": "string", "maxLength": 150 },
+        "dars_address": { "type": "string", "maxLength": 300 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "email": { "type": "string", "maxLength": 100 },
+        "other_details": { "type": "string", "maxLength": 250 },
+        "currency": { "type": "string", "maxLength": 10 },
+        "date_format": { "type": "string", "maxLength": 20 },
+        "theme": { "type": "string", "enum": ["light", "dark"] }
+      },
+      "required": ["dars_name"]
+    }
+  },
+  "firestore": {
+    "/students/{studentId}": {
+      "schema": { "$ref": "#/entities/Student" },
+      "description": "Stores individual DARS student records"
+    },
+    "/transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/Transaction" },
+      "description": "Stores fund transactions for students"
+    },
+    "/settings/{settingsId}": {
+      "schema": { "$ref": "#/entities/DarsSettings" },
+      "description": "Stores institutional settings and configuration"
+    }
+  }
+}

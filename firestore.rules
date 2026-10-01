@@ -1,0 +1,72 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global Safety Net: Default-deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Schema Validation Helpers
+    function isValidStudent(data) {
+      return data.keys().hasAll(['full_name', 'student_id', 'district', 'phone']) &&
+             data.keys().hasOnly(['id', 'full_name', 'student_id', 'house_name', 'post_office', 'extra_address', 'district', 'state', 'pincode', 'phone', 'created_at', 'updated_at']) &&
+             data.full_name is string && data.full_name.size() > 0 && data.full_name.size() <= 150 &&
+             data.student_id is string && data.student_id.size() > 0 && data.student_id.size() <= 50 &&
+             data.district is string && data.district.size() > 0 && data.district.size() <= 80 &&
+             data.phone is string && data.phone.size() > 0 && data.phone.size() <= 20;
+    }
+
+    function isValidTransaction(data) {
+      return data.keys().hasAll(['student_id', 'type', 'amount', 'description', 'date']) &&
+             data.keys().hasOnly(['id', 'student_id', 'type', 'amount', 'description', 'date', 'created_at']) &&
+             data.student_id is string && data.student_id.size() > 0 && data.student_id.size() <= 128 &&
+             (data.type == 'income' || data.type == 'expense') &&
+             data.amount is number && data.amount > 0 &&
+             data.description is string && data.description.size() > 0 && data.description.size() <= 300 &&
+             data.date is string && data.date.size() > 0 && data.date.size() <= 30;
+    }
+
+    function isValidSettings(data) {
+      return data.keys().hasAll(['dars_name']) &&
+             data.keys().hasOnly(['dars_name', 'dars_address', 'phone', 'email', 'other_details', 'currency', 'date_format', 'theme']) &&
+             data.dars_name is string && data.dars_name.size() > 0 && data.dars_name.size() <= 150;
+    }
+
+    // Students Collection
+    match /students/{studentId} {
+      allow get, list: if true;
+      allow create: if isValidId(studentId) && isValidStudent(incoming());
+      allow update: if isValidId(studentId) && isValidStudent(incoming());
+      allow delete: if isValidId(studentId);
+    }
+
+    // Transactions Collection
+    match /transactions/{transactionId} {
+      allow get, list: if true;
+      allow create: if isValidId(transactionId) && isValidTransaction(incoming());
+      allow update: if isValidId(transactionId) && isValidTransaction(incoming());
+      allow delete: if isValidId(transactionId);
+    }
+
+    // Settings Collection
+    match /settings/{settingsId} {
+      allow get, list: if true;
+      allow create: if isValidId(settingsId) && isValidSettings(incoming());
+      allow update: if isValidId(settingsId) && isValidSettings(incoming());
+      allow delete: if isValidId(settingsId);
+    }
+  }
+}

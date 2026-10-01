@@ -1,0 +1,9 @@
+{
+  "name": "Madinul Qutaba — DARS Student Fund Management System",
+  "description": "Comprehensive student fund and financial management system for Madinul Qutaba DARS Islamic educational institution.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
+
