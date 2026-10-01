@@ -31,7 +31,7 @@ service cloud.firestore {
 
     function isValidTransaction(data) {
       return data.keys().hasAll(['student_id', 'type', 'amount', 'description', 'date']) &&
-             data.keys().hasOnly(['id', 'student_id', 'type', 'amount', 'description', 'date', 'created_at']) &&
+             data.keys().hasOnly(['id', 'student_id', 'type', 'amount', 'description', 'date', 'created_at', 'updated_at']) &&
              data.student_id is string && data.student_id.size() > 0 && data.student_id.size() <= 128 &&
              (data.type == 'income' || data.type == 'expense') &&
              data.amount is number && data.amount > 0 &&
@@ -41,7 +41,7 @@ service cloud.firestore {
 
     function isValidSettings(data) {
       return data.keys().hasAll(['dars_name']) &&
-             data.keys().hasOnly(['dars_name', 'dars_address', 'phone', 'email', 'other_details', 'currency', 'date_format', 'theme']) &&
+             data.keys().hasOnly(['dars_name', 'dars_address', 'phone', 'email', 'other_details', 'currency', 'date_format', 'theme', 'logo']) &&
              data.dars_name is string && data.dars_name.size() > 0 && data.dars_name.size() <= 150;
     }
 

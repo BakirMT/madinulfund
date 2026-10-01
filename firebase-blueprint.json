@@ -31,7 +31,8 @@
         "amount": { "type": "number" },
         "description": { "type": "string", "maxLength": 300 },
         "date": { "type": "string", "maxLength": 30 },
-        "created_at": { "type": "string", "maxLength": 50 }
+        "created_at": { "type": "string", "maxLength": 50 },
+        "updated_at": { "type": "string", "maxLength": 50 }
       },
       "required": ["student_id", "type", "amount", "description", "date"]
     },
