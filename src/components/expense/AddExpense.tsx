@@ -158,7 +158,7 @@ export const AddExpense: React.FC<AddExpenseProps> = ({
                     type="number"
                     step="any"
                     min="0.01"
-                    placeholder="e.g. 450"
+                    placeholder=""
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     className="w-full min-h-[46px] pl-8 pr-3.5 py-2.5 text-base sm:text-sm font-mono font-bold rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-rose-500"
@@ -188,7 +188,7 @@ export const AddExpense: React.FC<AddExpenseProps> = ({
               </label>
               <input
                 type="text"
-                placeholder="e.g. Tafseer Kitab & Arabic Grammar Note"
+                placeholder=""
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 className="w-full min-h-[46px] px-3.5 py-2.5 text-base sm:text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-rose-500"

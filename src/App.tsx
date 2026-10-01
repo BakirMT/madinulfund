@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import { DarsProvider, useDars } from './context/DarsContext';
+import { DarsProvider } from './context/DarsContext';
 import { Sidebar, NavPage } from './components/navigation/Sidebar';
 import { Navbar } from './components/navigation/Navbar';
 import { Dashboard } from './components/dashboard/Dashboard';
@@ -18,19 +18,111 @@ import { Login } from './components/auth/Login';
 import { ToastContainer, ToastMessage } from './components/common/Toast';
 import { MobileBottomNav } from './components/navigation/MobileBottomNav';
 
+const VALID_PAGES: Record<string, NavPage> = {
+  dashboard: 'dashboard',
+  students: 'students',
+  'search-students': 'search-students',
+  'add-student': 'add-student',
+  'student-detail': 'student-detail',
+  'student-financial': 'student-financial',
+  income: 'income',
+  'add-income': 'add-income',
+  expenses: 'expenses',
+  'add-expense': 'add-expense',
+  transactions: 'transactions',
+  reports: 'reports',
+  settings: 'settings',
+};
+
+function parseUrlRoute(): { page: NavPage; data: any } {
+  try {
+    // 1. Check hash first: e.g. #/students or #/student-detail?id=xyz
+    let raw = window.location.hash.replace(/^#\/?/, '').trim();
+
+    // 2. If no hash, inspect pathname: e.g. /students
+    if (!raw && window.location.pathname && window.location.pathname !== '/') {
+      raw = window.location.pathname.replace(/^\/+/, '').trim();
+    }
+
+    if (!raw) {
+      return { page: 'dashboard', data: null };
+    }
+
+    const [routePath, queryString] = raw.split('?');
+    const cleanPath = routePath.toLowerCase();
+    const page = VALID_PAGES[cleanPath] || 'dashboard';
+
+    let data: any = null;
+    if (queryString) {
+      const params = new URLSearchParams(queryString);
+      const studentId = params.get('id') || params.get('studentId');
+      if (studentId) {
+        data = { studentId };
+      }
+    }
+
+    return { page, data };
+  } catch {
+    return { page: 'dashboard', data: null };
+  }
+}
+
 const AppContent: React.FC = () => {
   const { isAuthenticated } = useAuth();
-  const [currentPage, setCurrentPage] = useState<NavPage>('dashboard');
-  const [navData, setNavData] = useState<any>(null);
+
+  // Initialize route from current browser URL hash or path
+  const initialRoute = parseUrlRoute();
+  const [currentPage, setCurrentPage] = useState<NavPage>(initialRoute.page);
+  const [navData, setNavData] = useState<any>(initialRoute.data);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
+
+  // Synchronize browser history and hash navigation
+  const handleNavigate = useCallback((page: NavPage, data?: any) => {
+    setCurrentPage(page);
+    setNavData(data || null);
+
+    let newHash = `#/${page}`;
+    if (data?.studentId) {
+      newHash += `?id=${encodeURIComponent(data.studentId)}`;
+    }
+
+    if (window.location.hash !== newHash) {
+      window.location.hash = newHash;
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  // Listen to browser Back/Forward and address bar navigation
+  useEffect(() => {
+    const handleUrlChange = () => {
+      const { page, data } = parseUrlRoute();
+      setCurrentPage(page);
+      setNavData(data);
+    };
+
+    window.addEventListener('hashchange', handleUrlChange);
+    window.addEventListener('popstate', handleUrlChange);
+
+    // Normalize direct pathname into hash so refresh always resolves to /
+    const route = parseUrlRoute();
+    if (!window.location.hash) {
+      const initialHash = `#/${route.page}${route.data?.studentId ? `?id=${encodeURIComponent(route.data.studentId)}` : ''}`;
+      window.history.replaceState(null, '', initialHash);
+    }
+
+    return () => {
+      window.removeEventListener('hashchange', handleUrlChange);
+      window.removeEventListener('popstate', handleUrlChange);
+    };
+  }, []);
 
   const showToast = (type: 'success' | 'error' | 'info', title: string, message?: string) => {
     const id = 'toast_' + Date.now() + '_' + Math.random().toString(36).substring(2, 5);
     const newToast: ToastMessage = { id, type, title, message };
     setToasts((prev) => [...prev, newToast]);
 
-    // auto dismiss after 4 seconds
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
     }, 4000);
@@ -38,12 +130,6 @@ const AppContent: React.FC = () => {
 
   const handleDismissToast = (id: string) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
-  };
-
-  const handleNavigate = (page: NavPage, data?: any) => {
-    setCurrentPage(page);
-    setNavData(data || null);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   if (!isAuthenticated) {

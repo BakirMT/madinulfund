@@ -326,9 +326,9 @@ export const Settings: React.FC<SettingsProps> = ({ showToast }) => {
                 onChange={(e) => setDateFormat(e.target.value)}
                 className="w-full min-h-[46px] px-3.5 py-2.5 text-base sm:text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white font-bold"
               >
-                <option value="DD/MM/YYYY">DD/MM/YYYY (e.g. 01/10/2026)</option>
-                <option value="YYYY-MM-DD">YYYY-MM-DD (e.g. 2026-10-01)</option>
-                <option value="MM/DD/YYYY">MM/DD/YYYY (e.g. 10/01/2026)</option>
+                <option value="DD/MM/YYYY">DD/MM/YYYY (01/10/2026)</option>
+                <option value="YYYY-MM-DD">YYYY-MM-DD (2026-10-01)</option>
+                <option value="MM/DD/YYYY">MM/DD/YYYY (10/01/2026)</option>
               </select>
             </div>
           </div>

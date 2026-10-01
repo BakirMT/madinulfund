@@ -146,7 +146,7 @@ export const AddStudent: React.FC<AddStudentProps> = ({ onNavigate, showToast })
             </label>
             <input
               type="text"
-              placeholder="e.g. Muhammad Bilal V.K."
+              placeholder=""
               value={fullName}
               onChange={(e) => {
                 setFullName(e.target.value);
@@ -189,7 +189,7 @@ export const AddStudent: React.FC<AddStudentProps> = ({ onNavigate, showToast })
 
               <input
                 type="text"
-                placeholder="e.g. MQ-2026-007"
+                placeholder=""
                 value={studentId}
                 onChange={(e) => {
                   setStudentId(e.target.value);
@@ -215,7 +215,7 @@ export const AddStudent: React.FC<AddStudentProps> = ({ onNavigate, showToast })
               </label>
               <input
                 type="tel"
-                placeholder="e.g. 9847012345"
+                placeholder=""
                 value={phone}
                 onChange={(e) => {
                   setPhone(e.target.value);
@@ -244,7 +244,7 @@ export const AddStudent: React.FC<AddStudentProps> = ({ onNavigate, showToast })
               </label>
               <input
                 type="text"
-                placeholder="e.g. Vannathan Kandi"
+                placeholder=""
                 value={houseName}
                 onChange={(e) => setHouseName(e.target.value)}
                 className="w-full min-h-[46px] px-3.5 py-2.5 text-base sm:text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
@@ -257,7 +257,7 @@ export const AddStudent: React.FC<AddStudentProps> = ({ onNavigate, showToast })
               </label>
               <input
                 type="text"
-                placeholder="e.g. Manjeri"
+                placeholder=""
                 value={postOffice}
                 onChange={(e) => setPostOffice(e.target.value)}
                 className="w-full min-h-[46px] px-3.5 py-2.5 text-base sm:text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
@@ -272,7 +272,7 @@ export const AddStudent: React.FC<AddStudentProps> = ({ onNavigate, showToast })
             </label>
             <input
               type="text"
-              placeholder="e.g. Near Central Juma Masjid, Court Road"
+              placeholder=""
               value={extraAddress}
               onChange={(e) => setExtraAddress(e.target.value)}
               className="w-full min-h-[46px] px-3.5 py-2.5 text-base sm:text-sm rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-hidden focus:ring-2 focus:ring-emerald-500"
@@ -354,7 +354,7 @@ export const AddStudent: React.FC<AddStudentProps> = ({ onNavigate, showToast })
                     type="number"
                     step="any"
                     min="0"
-                    placeholder="e.g. 1000"
+                    placeholder=""
                     value={initialFund}
                     onChange={(e) => setInitialFund(e.target.value)}
                     className="w-full min-h-[42px] pl-7 pr-3 py-2 text-base sm:text-xs font-mono rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"

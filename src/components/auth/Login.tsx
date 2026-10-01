@@ -28,12 +28,6 @@ export const Login: React.FC<LoginProps> = ({ showToast }) => {
     }
   };
 
-  const handleDemoFill = () => {
-    setUsername('admin');
-    setPassword('madinul2026');
-    setError('');
-  };
-
   return (
     <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 bg-gradient-to-br from-emerald-950 via-slate-900 to-slate-950 text-slate-100 select-none">
       <div className="w-full max-w-md space-y-5 sm:space-y-6">
@@ -83,7 +77,7 @@ export const Login: React.FC<LoginProps> = ({ showToast }) => {
                 <User className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400" />
                 <input
                   type="text"
-                  placeholder="admin"
+                  placeholder=""
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   className="w-full min-h-[48px] pl-10 pr-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-white placeholder:text-slate-500 text-base sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-emerald-500 font-medium"
@@ -127,25 +121,6 @@ export const Login: React.FC<LoginProps> = ({ showToast }) => {
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
-
-          {/* Quick Demo Access Helper */}
-          <div className="pt-2 border-t border-slate-800/80 text-center space-y-1.5">
-            <p className="text-[11px] text-slate-400">
-              Default Demo Credentials:
-            </p>
-            <div className="flex items-center justify-center gap-2 text-xs font-mono text-emerald-400 bg-slate-800/70 py-2 px-3 rounded-xl border border-slate-700/60">
-              <span>User: <strong>admin</strong></span>
-              <span aria-hidden="true">·</span>
-              <span>Pass: <strong>madinul2026</strong></span>
-            </div>
-            <button
-              type="button"
-              onClick={handleDemoFill}
-              className="min-h-[36px] text-xs font-bold text-slate-300 hover:text-emerald-400 underline transition-colors"
-            >
-              Fill Credentials Automatically
-            </button>
-          </div>
         </div>
 
         {/* Footer info */}
